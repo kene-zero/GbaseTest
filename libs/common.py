@@ -55,20 +55,27 @@ class NodeSSH:
 
 
 class DbConnect:
-    def __int__(self):
-        pass
+    def __init__(self, user, password, host, database, port):
+        self.db_setting = {'user': user,
+                           'password': password,
+                           'host': host,
+                           'database': database,
+                           'port': port}
+        self.con = None
+        self.connect()
 
     def connect(self):
-        psycopg2.connect()
-        pass
+        self.con = psycopg2.connect(**self.db_setting)
+        cur = self.con.cursor()
 
-    def send_sql(self):
-        pass
-
-    def check_connect(self):
-        pass
-
-
-class Cluster:
-    def __int__(self):
-        pass
+    def send_sql(self, SQL):
+        cur = self.con.cursor()
+        cur.execute(SQL)
+        try:
+            result = cur.fetchall()
+        except psycopg2.ProgrammingError as e:
+            if "no results to fetch" in str(e):
+                result = cur.statusmessage
+            else:
+                raise Exception(e)
+        return result

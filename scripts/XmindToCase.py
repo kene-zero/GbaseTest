@@ -36,14 +36,14 @@ class XmindToCase(object):
         history_name = xmind_dict[0]['topic']["title"]
         print(history_name)
         _info = {}
-        for info in history_info:
+        for info in history_info:  # 第一层
             if info['title'] == "需求说明":
                 for tips in info['topics']:
                     key = tips["title"]
                     _info[key] = tips["topics"][0]['title']
-            if info['title'] == '功能':
+            else:
                 case_dict = info['topics']
-                for func in case_dict:
+                for func in case_dict:  # 第二层
                     for test_type in func["topics"]:
                         for test_title in test_type["topics"]:
                             steps = []
@@ -86,7 +86,7 @@ class XmindToCase(object):
             for case in case_list:
                 num += 1
                 sheet[f'A{str(num)}'] = " "
-                sheet[f'B{str(num)}'] = case["ID"]
+                sheet[f'B{str(num)}'] = case["ID"]+str(num+1)
                 sheet[f'C{str(num)}'] = case["test_func"]
                 sheet[f'D{str(num)}'] = case["test_type"]
                 sheet[f'E{str(num)}'] = case["test_title"]
