@@ -1,8 +1,7 @@
 #!/bin/python3
 # -*- coding:utf-8 -*-
-import string
 
-import xmind
+import string
 import os
 from xmindparser import xmind_to_dict
 from openpyxl import Workbook
@@ -17,12 +16,12 @@ class XmindToCase(object):
 
         self.root_path = os.path.dirname(os.path.dirname(__file__))
         self.files_path = os.path.join(self.root_path, "files")
-        self.xmind_path = XMindPath if XMindPath else "D:\\File\\测试文件\\测试设计"
-        self.testCase_path = CaseFilePath if CaseFilePath else "D:\\File\\测试文件\\测试用例"
+        self.xmind_path = XMindPath if XMindPath else "D:\\File\\脚本文件\\测试设计"
+        self.testCase_path = CaseFilePath if CaseFilePath else "D:\\File\\脚本文件\\测试用例"
         self.xmind_dict_list = []
         self.func_name_list = []
 
-    def xmind_to_dict(self):
+    def xmind_dict(self):
         xmind_file_list = os.listdir(self.xmind_path)
         print(xmind_file_list)
         for xmind_file in xmind_file_list:
@@ -63,7 +62,7 @@ class XmindToCase(object):
 
     def generate_excel(self):
         wb = Workbook()
-        self.xmind_to_dict()
+        self.xmind_dict()
         index = 0
         for xmind_dict, func_name in zip(self.xmind_dict_list, self.func_name_list):
             case_list = self.dict_to_case(xmind_dict)
@@ -86,7 +85,7 @@ class XmindToCase(object):
             for case in case_list:
                 num += 1
                 sheet[f'A{str(num)}'] = " "
-                sheet[f'B{str(num)}'] = case["ID"]+str(num+1)
+                sheet[f'B{str(num)}'] = case["ID"] + str(num + 1)
                 sheet[f'C{str(num)}'] = case["test_func"]
                 sheet[f'D{str(num)}'] = case["test_type"]
                 sheet[f'E{str(num)}'] = case["test_title"]
@@ -133,11 +132,10 @@ class XmindToCase(object):
                                               top=Side(style='thin'))
                 ws[f'{x}{y}'].alignment = Alignment(wrap_text=True, horizontal='left')
 
-        wb.save("D:\\File\\测试文件\\测试用例\\测试用例.xlsx")
+        wb.save("D:\\File\\脚本文件\\测试用例\\测试用例.xlsx")
 
 
 if __name__ == '__main__':
     tool = XmindToCase()
-    tool.xmind_to_dict()
     tool.generate_excel()
     tool.update_style()
