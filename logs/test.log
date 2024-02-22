@@ -9,3 +9,10 @@
 [0m
 2023-09-26 14:26:25,934-D:\Code\GbaseTest\libs\log.py-main.py-[line:10]-INFO-[日志信息]: /root
 [0m
+2024-02-19 14:36:39,911-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:62]-INFO-[日志信息]: hahaha[0m
+2024-02-19 14:36:39,912-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:63]-WARNING-[日志信息]: hahaha[0m
+2024-02-19 14:36:39,912-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:64]-ERROR-[日志信息]: hahaha[0m
+2024-02-19 14:38:41,233-D:\Code\git_code\GbaseTest\libs\log.py-XmindToCase.py-[line:38]-INFO-[日志信息]: 创建数据库模板[0m
+2024-02-19 14:40:01,263-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:62]-INFO-[日志信息]: hahaha[0m
+2024-02-19 14:40:01,263-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:63]-WARNING-[日志信息]: hahaha[0m
+2024-02-19 14:40:01,264-D:\Code\git_code\GbaseTest\libs\log.py-log.py-[line:64]-ERROR-[日志信息]: hahaha[0m

@@ -8,6 +8,9 @@ from openpyxl import Workbook
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, Border, PatternFill, Side, Alignment
+from libs import log
+
+log = log.Log().get_logger()
 
 
 class XmindToCase(object):
@@ -33,7 +36,7 @@ class XmindToCase(object):
         case_list = []
         history_info = xmind_dict[0]['topic']["topics"]
         history_name = xmind_dict[0]['topic']["title"]
-        print(history_name)
+        log.info(history_name)
         _info = {}
         for info in history_info:  # 第一层
             if info['title'] == "需求说明":
@@ -103,14 +106,14 @@ class XmindToCase(object):
                     n += 1
                 sheet[f'H{str(num)}'] = step.strip()
                 sheet[f'I{str(num)}'] = expect.strip()
-                sheet[f'J{str(num)}'] = "★★★"
+                sheet[f'J{str(num)}'] = "★A★"
                 sheet[f'K{str(num)}'] = "否"
                 sheet[f'L{str(num)}'] = "ShiShaoHua"
-            excel_file_path = os.path.join("D:\\File\\测试文件\\测试用例\\测试用例.xlsx")
+            excel_file_path = os.path.join(self.testCase_path + "\\测试用例.xlsx")
             wb.save(excel_file_path)
 
     def update_style(self):
-        wb = load_workbook("D:\\File\\测试文件\\测试用例\\测试用例.xlsx")
+        wb = load_workbook(self.testCase_path + "\\测试用例.xlsx")
         print(wb.sheetnames)
         ws = wb[wb.sheetnames[0]]
         print("row:", ws.max_row, "column:", ws.max_column)
@@ -123,19 +126,20 @@ class XmindToCase(object):
         for x in list(string.ascii_uppercase)[0:12]:
             ws[f'{x}1'].fill = PatternFill("solid", fgColor="C0C0C0")
             ws[f'{x}1'].font = Font(color='000000', bold=True)
-            ws[f'{x}1'].border = Border(left=Side(style='thin'), bottom=Side(style='thin'), right=Side(style='thin'),
-                                        top=Side(style='thin'))
+            ws[f'{x}1'].border = Border(left=Side(style='thin'), bottom=Side(style='thin'),
+                                        right=Side(style='thin'), top=Side(style='thin'))
             ws[f'{x}1'].alignment = Alignment(horizontal='left')
             for y in range(2, ws.max_row + 1):
                 ws[f'{x}{y}'].border = Border(left=Side(style='thin'), bottom=Side(style='thin'),
-                                              right=Side(style='thin'),
-                                              top=Side(style='thin'))
+                                              right=Side(style='thin'), top=Side(style='thin'))
                 ws[f'{x}{y}'].alignment = Alignment(wrap_text=True, horizontal='left')
 
-        wb.save("D:\\File\\脚本文件\\测试用例\\测试用例.xlsx")
+        wb.save(self.testCase_path + "\\测试用例.xlsx")
 
 
 if __name__ == '__main__':
-    tool = XmindToCase()
+    xmind_path = "D:\\File\\脚本文件\\测试设计"
+    case_path = "D:\\File\\脚本文件\\测试用例"
+    tool = XmindToCase(XMindPath=xmind_path, CaseFilePath=case_path)
     tool.generate_excel()
     tool.update_style()

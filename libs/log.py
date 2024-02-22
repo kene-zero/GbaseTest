@@ -44,7 +44,7 @@ class Log:
         """设置文件输出控制台"""
         import inspect
         case = inspect.stack()
-        print(case)
+        # print(case)
         root_path = os.path.dirname(os.path.dirname(__file__))
         log_dir = os.path.join(root_path, "logs")
         log_file = os.path.join(log_dir, "test.log")
