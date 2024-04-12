@@ -19,10 +19,11 @@ class XmindToCase(object):
 
         self.root_path = os.path.dirname(os.path.dirname(__file__))
         self.files_path = os.path.join(self.root_path, "files")
-        self.xmind_path = XMindPath if XMindPath else "D:\\File\\脚本文件\\测试设计"
-        self.testCase_path = CaseFilePath if CaseFilePath else "D:\\File\\脚本文件\\测试用例"
+        self.xmind_path = os.path.join(self.root_path, "case_xminds") if XMindPath is None else XMindPath
+        self.testCase_path = os.path.join(self.root_path, "case_excels") if CaseFilePath is None else CaseFilePath
         self.xmind_dict_list = []
         self.func_name_list = []
+        self.history_name = None
 
     def xmind_dict(self):
         xmind_file_list = os.listdir(self.xmind_path)
@@ -37,6 +38,7 @@ class XmindToCase(object):
         history_info = xmind_dict[0]['topic']["topics"]
         history_name = xmind_dict[0]['topic']["title"]
         log.info(history_name)
+        self.history_name = history_name
         _info = {}
         for info in history_info:  # 第一层
             if info['title'] == "需求说明":
@@ -73,18 +75,12 @@ class XmindToCase(object):
             index += 1
             sheet = wb[func_name]
             num = 1
-            sheet[f'A{str(num)}'] = "Test linkID"
-            sheet[f'B{str(num)}'] = "用例编号"
-            sheet[f'C{str(num)}'] = "测试功能"
-            sheet[f'D{str(num)}'] = "测试类别"
-            sheet[f'E{str(num)}'] = "测试标题"
-            sheet[f'F{str(num)}'] = "测试环境"
-            sheet[f'G{str(num)}'] = "前置条件"
-            sheet[f'H{str(num)}'] = "测试步骤"
-            sheet[f'I{str(num)}'] = "检查项"
-            sheet[f'J{str(num)}'] = "优先级"
-            sheet[f'K{str(num)}'] = "是否自动化"
-            sheet[f'L{str(num)}'] = "用例作者"
+            case_title = ["TestID", "用例编号", "测试功能", "测试类别", "测试标题", "测试环境", "前置条件", "测试步骤", "检查项",
+                          "优先级", "是否自动化", "用例作者"]
+            line_num = string.ascii_lowercase
+            for n, t in zip(line_num, case_title):
+                sheet[f'{n.upper()}{str(num)}'] = t
+
             for case in case_list:
                 num += 1
                 sheet[f'A{str(num)}'] = " "
@@ -93,8 +89,7 @@ class XmindToCase(object):
                 sheet[f'D{str(num)}'] = case["test_type"]
                 sheet[f'E{str(num)}'] = case["test_title"]
                 sheet[f'F{str(num)}'] = case["database"]
-                sheet[f'G{str(num)}'] = """1.集群已部署
-2.集群状态正常"""
+                sheet[f'G{str(num)}'] = """1.集群已部署\r2.集群状态正常"""
                 step = ""
                 expect = ''
                 n = 1
@@ -134,12 +129,10 @@ class XmindToCase(object):
                                               right=Side(style='thin'), top=Side(style='thin'))
                 ws[f'{x}{y}'].alignment = Alignment(wrap_text=True, horizontal='left')
 
-        wb.save(self.testCase_path + "\\测试用例.xlsx")
+        wb.save(self.testCase_path + f"\\{self.history_name}.xlsx")
 
 
 if __name__ == '__main__':
-    xmind_path = "D:\\File\\脚本文件\\测试设计"
-    case_path = "D:\\File\\脚本文件\\测试用例"
-    tool = XmindToCase(XMindPath=xmind_path, CaseFilePath=case_path)
+    tool = XmindToCase()
     tool.generate_excel()
     tool.update_style()
