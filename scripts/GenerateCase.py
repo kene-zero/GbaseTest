@@ -75,7 +75,8 @@ class XmindToCase(object):
             index += 1
             sheet = wb[func_name]
             num = 1
-            case_title = ["TestID", "用例编号", "测试功能", "测试类别", "测试标题", "测试环境", "前置条件", "测试步骤", "检查项",
+            case_title = ["TestID", "用例编号", "测试功能", "测试类别", "测试标题", "测试环境", "前置条件", "测试步骤",
+                          "检查项",
                           "优先级", "是否自动化", "用例作者"]
             line_num = string.ascii_lowercase
             for n, t in zip(line_num, case_title):

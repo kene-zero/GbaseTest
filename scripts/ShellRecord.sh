@@ -6,9 +6,11 @@ yum install -y net-tools.x86_64
 cat /proc/cpuinfo | grep "core id"
 
 # 单机不卸载数据库，重新初始化实例办法：
+
 # 1.创建实例存放路径
 su - gbase
 mkdir -p /opt/gbase8c/install/data/dn2
+
 # 2.初始化实例
 gs_initdb -D /opt/gbase8c/install/data/dn2 -w "gbase;123" --nodename='dn2'
 
@@ -26,8 +28,8 @@ python manage.py sqlmigrate polls 0001
 python manage.py migrate
 
 
-certutil -hashfile C:\Users\zero4\Desktop\  MD5
-C:\Users\zero4\Desktop
+certutil -hashfile C:\\Users\\zero4\\Desktop\  MD5
+C:\\Users\\zero4\\Desktop
 
 # 修改python软连接
 update-alternatives --install /usr/bin/python python /usr/bin/python3 1
